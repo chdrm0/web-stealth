@@ -1,0 +1,41 @@
+# Two rows, order matters for readability only — provider selection happens at
+# execution time, so registration order never decides which provider wins.
+#
+# 1) Mount the plugin that registers the `stealth-web` fetch provider.
+#    No paths are pinned here, deliberately. The sidecar directory and its
+#    interpreter are derived from where the bundle itself is installed, and the
+#    cookie jar from the harness home — so a published row cannot carry another
+#    machine's path, and a moved or renamed install still finds its own files.
+#    The jar holds credentials, mode 0600, outside the repository.
+- insert:
+    - id: web-stealth
+      name: '@local/web-stealth'
+      config:
+        # This row is the authority: a patch `config` replaces the plugin's
+        # defaults, so changing the default in index.js alone does nothing here.
+        # No `proxy` is shipped: an exit is whatever the machine has, and an
+        # owner's tunnel is not a value a published default can carry. Set it
+        # here or in the settings page; leaving it unset means a direct
+        # connection.
+        maxChars: 30000
+        timeoutMs: 45000
+        # Measured on this exit: google answers `js-proof` and brave answers 429
+        # even as the first engine of a fresh process. duckduckgo is the only one
+        # that answers, so it goes first. This is the scripted client being
+        # google answers a curl request again once the SERP URL carries the omnibox
+        # parameter set (PLAN.md R49-R50); the content of the token is not checked.
+        # The other two stay in the chain — the order is the configured engine then
+        # the rest — in case that check ever gets stricter.
+        searchEngine: google
+
+# 2) Repoint the seam at that provider.
+#    A patch `config` REPLACES the row's config wholesale (no deep merge), so
+#    `searchProvider` is restated exactly as dsh-base declares it.
+#    Both are switched: the same sidecar answers search through the logged-in
+#    google session, which is what makes the SERP readable at all.
+#    Rollback: set fetchProvider/searchProvider back to `http`/`deepseek-official`.
+- id: web
+  name: '@deepseek-ai/dsh-web'
+  config:
+    searchProvider: stealth-web
+    fetchProvider: stealth-web

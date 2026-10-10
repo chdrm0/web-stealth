@@ -1,0 +1,30 @@
+{
+  "name": "@local/web-stealth",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "peerDependencies": {
+    "@deepseek-ai/dsh": ">=0.1.7-alpha.2 <0.3.0"
+  },
+  "description": "ctx.web fetch provider backed by a Python sidecar: curl_cffi TLS impersonation first, an explicit browser tier beside it, shared cookie jar, SOCKS5 proxy.",
+  "meta": {
+    "title": "Stealth Web Fetch",
+    "description": "Replaces the web_fetch retrieval backend with a local sidecar: impersonated HTTP through a proxy plus a real cookie jar."
+  },
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "index.js",
+    "lib/",
+    "cordis.patch.yml",
+    "locale/*.json"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

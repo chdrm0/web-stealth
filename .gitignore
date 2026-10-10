@@ -1,0 +1,12 @@
+# Environments and caches
+.venv/
+.uv-cache/
+node_modules/
+__pycache__/
+*.py[cod]
+
+# Runtime artifacts and credentials
+.env
+.probe-profile/
+jar/
+*.log

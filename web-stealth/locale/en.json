@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Stealth Web Fetch",
+    "description": "Retrieval through a local sidecar: impersonated HTTP with a real cookie jar, plus a browser tier and its tools."
+  }
+}

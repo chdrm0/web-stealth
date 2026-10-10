@@ -1,0 +1,8 @@
+# The settings page for the stealth web provider.
+#
+# It is its own row, and its own package, on purpose: the host half of
+# `@local/web-stealth` must be mounted exactly once, and a second row naming that
+# package would activate it twice — which would start a second sidecar.
+- insert:
+    - id: web-stealth-ui
+      name: '@local/web-stealth-ui'
